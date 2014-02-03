@@ -10,6 +10,9 @@
                     <script> callee= subscriber</script>
                 </transition>
             </state>
+            <state id="link_callee">
+                <transition event="calle?Ack" cond="ack" target="wait" />
+            </state>
         </state>
         <state id="wait">
             <transition event="participant?Accept" cond="zone=source" target="timer_started"/>
@@ -29,4 +32,5 @@
         </state>
     </state>  
 </scxml>
+
 
