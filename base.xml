@@ -13,7 +13,6 @@
         </state>
         
         
-        
         <state id="timer_started">
             <transition event="participant?TearDown"  target="log_success"/>
             <transition event="subscriber?TearDown"  target="log_success"/>
