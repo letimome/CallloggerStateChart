@@ -1,42 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<delta id="voicemail"> <!--Delta to add voiceMail feature -->
-    <modify element="state" id="link_callee">
-        <add element="transition" event="subscriber?Ack" cond="ack" target="wait">
-            <add element="script">
-                <set script="id=voicemail"/>
-            </add>
-        </add>
-    </modify>
-    
-    <modify element="transition" id="link_callee-to-wait"><!-- Add script to calle?Ack, this could also be out of the parent modify -->
-        <add element="script">
-            <set script="id=basic"/>
-        </add>
-    </modify>
-     
-    <modify element="state" id="s1">
-        <add element="state" id="link_callee_voicemail">
-            <add element="transition" event="participant?Ack" target="wait">
-                <add element="script">
-                    <set script="id=voicemail"/>
-                 </add>
-            </add>
-            <add element="transition" event="callee?Ack" target="wait">
-                <add element="script">
-                    <set script="id=basic"/>
-                </add>
-            </add>
-        </add>
-    </modify>
-    
-    <modify element="state" id="wait">
-        <add element="transition" event="participant?Unavail" cond="zone=source" target="log_failure"/>
-        <add element="transition" event="subscriber?Unavail" cond="zone=target" target="log_failure"/>
-        <add element="transition" event="redirectToVoiceMail" cond="zone=target" target="log_voicemail"/>
-    </modify>
-    
-    <modify element="state" id="call_logger_basic">
-       <add element="state" id="log_voicemail" final="true"/>
-   </modify>
-</delta>
-
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" initial="call_logger_basic" >
+    <state id="call_logger_basic" initial="s1">         
+        <state id="s1" initial="start">
+            <state id="start">
+                <transition event="setup" cond="zone=source" target="s3" >
+                    <script> calle=participant</script>
+                </transition>
+                <transition event="setup" cond="zone=target" target="s3" >
+                    <script> callee= subscriber</script>
+                </transition>
+            </state>
+            <state id="link_callee">
+                <transition event="calle?Ack" cond="ack" target="wait" />
+            </state>
+        </state>
+        <state id="wait">
+            <transition event="participant?Accept" cond="zone=source" target="timer_started"/>
+            <transition event="subscriber?Accept" cond="zone=target" target="timmer_started"/>
+            <transition event="participant?Reject" cond="zone=source" target="log_failure"/>
+            <transition event="participant?TearDown" cond="zone=source" target="log_failure"/>
+            <transition event="subscriber?Reject" cond="zone=target" target="log_failure"/>
+            <transition event="subscriber?TearDown" cond="zone=target" target="log_failure"/>
+        </state>
+        <state id="timer_started">
+            <transition event="participant?TearDown"  target="log_success"/>
+            <transition event="subscriber?TearDown"  target="log_success"/>
+        </state>
+        <state id="log_success" final="true">
+        </state>
+        <state id="log_failure" final="true">
+        </state>
+    </state>  
+</scxml>
