@@ -12,14 +12,7 @@
             </state>
             
         </state>
-        <state id="wait">
-            <transition event="participant?Accept" cond="zone=source" target="timer_started"/>
-            <transition event="subscriber?Accept" cond="zone=target" target="timmer_started"/>
-            <transition event="participant?Reject" cond="zone=source" target="log_failure"/>
-            <transition event="participant?TearDown" cond="zone=source" target="log_failure"/>
-            <transition event="subscriber?Reject" cond="zone=target" target="log_failure"/>
-            <transition event="subscriber?TearDown" cond="zone=target" target="log_failure"/>
-        </state>
+        
         <state id="timer_started">
             <transition event="participant?TearDown"  target="log_success"/>
             <transition event="subscriber?TearDown"  target="log_success"/>
