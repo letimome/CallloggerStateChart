@@ -11,6 +11,9 @@
                 </transition>
             </state>
         </state>
+        
+        
+        
 
         <state id="timer_started">
             <transition event="participant?TearDown"  target="log_success"/>
