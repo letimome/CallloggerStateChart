@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<_________xml version="1.0" encoding="UTF-8"?>
 <scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" initial="call_logger_basic" >
     <state id="call_logger_basic" initial="s1">         
         <state id="s1" initial="start">
