@@ -22,6 +22,7 @@
             <transition event="subscriber?Reject" cond="zone=target" target="log_failure"/>
             <transition event="subscriber?TearDown" cond="zone=target" target="log_failure"/>
         </state>
+        -----------
         <state id="timer_started">
             <transition event="participant?TearDown"  target="log_success"/>
             <transition event="subscriber?TearDown"  target="log_success"/>
